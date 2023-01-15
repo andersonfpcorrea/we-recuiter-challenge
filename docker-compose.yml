@@ -3,13 +3,9 @@ version: '3.9'
 services:
   frontend:
     container_name: frontend
-    build:
-      context: ./wr-frontend/
-      dockerfile: Dockerfile.dev
+    build: ./wr-frontend/
     ports:
-      - 3000:3000
-    volumes:
-      - ./wr-frontend/src:/app/src
+      - 3000:80
     networks:
       - react-express
     depends_on:
@@ -24,13 +20,9 @@ services:
 
   backend:
     container_name: backend
-    build:
-      context: ./wr-backend/
-      dockerfile: Dockerfile.dev
+    build: ./wr-backend
     ports:
       - 3001:3001
-    volumes:
-      - ./wr-backend/src:/app/src
     networks:
       - express-mongo
       - react-express

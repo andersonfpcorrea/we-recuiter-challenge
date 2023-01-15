@@ -1,7 +1,8 @@
-FROM node:19-alpine
-EXPOSE 3001
+FROM node:19-alpine AS build
+EXPOSE 3000
 WORKDIR /app
 COPY ["package.json", "package-lock.json*", "./"]
 RUN npm install
 COPY . .
-CMD ["node", "./src/server.js"]
+ENTRYPOINT [ "npm", "run" ]
+CMD ["start"]
