@@ -1,3 +1,6 @@
 const app = require('./app');
+require('./db'); // Connect to db
 
-app.listen(3001, () => console.log('Server listening on port 3001'));
+const PORT = process.env.PORT === undefined ? 3001 : process.env.PORT;
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

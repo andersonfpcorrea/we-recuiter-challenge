@@ -1,15 +1,8 @@
 const router = require('express').Router();
+const { getPeople, editPerson, deletePerson } = require('./controller');
 
-router
-  .route('/')
-  .get(() => {
-    console.log('get');
-  })
-  .put(() => {
-    console.log('put');
-  })
-  .delete(() => {
-    console.log('delete');
-  });
+router.route('/').get(getPeople);
+
+router.route('/:id').put(editPerson).delete(deletePerson);
 
 module.exports = router;
