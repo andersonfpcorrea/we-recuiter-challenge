@@ -13,7 +13,10 @@ const btnMap = {
 
 export default function TableButton({ type }: ITableBtnProps): ReactElement {
   return (
-    <Button variant={btnMap[type].color}>
+    <Button
+      type='button'
+      className={`bg-${btnMap[type].color} text-light border border-white`}
+    >
       {btnMap[type].icon}
       {btnMap[type].text}
     </Button>

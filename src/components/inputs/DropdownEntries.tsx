@@ -20,8 +20,8 @@ export default function DropdownEntries({
   }, [optQty]);
 
   return (
-    <div>
-      <span>Show</span>
+    <div className='d-flex gap-1'>
+      <span>Show:</span>
       <select>{options}</select>
       <span>entries</span>
     </div>
