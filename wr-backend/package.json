@@ -1,0 +1,28 @@
+{
+  "name": "wr-backend",
+  "version": "1.0.0",
+  "description": "backend app",
+  "main": "./src/server.js",
+  "scripts": {
+    "dev": "nodemon ./src/server.js"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "api",
+    "crud"
+  ],
+  "author": "Anderson Correa",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.31.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.4",
+    "nodemon": "^2.0.20"
+  }
+}
