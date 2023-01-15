@@ -5,7 +5,7 @@ services:
     container_name: frontend
     build: ./wr-frontend
     ports:
-      - 3000:3000
+      - 3000:80
     volumes:
       - ./wr-frontend/src:/app/src
     networks:
