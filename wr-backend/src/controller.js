@@ -10,3 +10,5 @@ exports.getPerson = controllerFactory(Person, "findById");
 exports.editPerson = controllerFactory(Person, "findByIdAndUpdate", true);
 
 exports.deletePerson = controllerFactory(Person, "findByIdAndDelete");
+
+exports.deletePeople = controllerFactory(Person, "deleteMany");

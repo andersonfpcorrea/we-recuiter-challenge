@@ -6,6 +6,8 @@ function controllerFactory(Model, action, useReqBody = false) {
       ? useReqBody
         ? await Model[action](id, personData)
         : await Model[action](id)
+      : useReqBody
+      ? await Model[action](personData)
       : await Model[action]();
     const stat = () => {
       if (

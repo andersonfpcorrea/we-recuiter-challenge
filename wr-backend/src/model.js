@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
 const personSchema = new mongoose.Schema({
-  firstName: { type: String, require: true },
-  lastName: { type: String, require: true },
-  gender: { type: String, require: true },
-  address: { type: String, require: true },
-  dob: { type: String, require: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  gender: { type: String, required: true },
+  address: { type: String, required: true },
+  dob: { type: String, required: true },
 });
 
 const Person = mongoose.model("Person", personSchema);
