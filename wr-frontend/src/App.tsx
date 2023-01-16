@@ -5,8 +5,12 @@ import SearchBar from './components/SearchBar';
 import { Stack } from 'react-bootstrap';
 import TableMain from './components/tables/MainTable';
 import TableSubInfo from './components/tables/TableSubInfo';
+import usePeople from './hooks/usePeople';
 
 export default function App() {
+  const { people } = usePeople();
+  console.log(people);
+
   return (
     <main className='p-4'>
       <h1>Ajax CRUD with Bootstrap modals and Datatables</h1>
