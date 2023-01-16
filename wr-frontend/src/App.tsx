@@ -1,27 +1,23 @@
-import Button from 'react-bootstrap/Button';
-import { BsPlusLg } from 'react-icons/bs';
 import DropdownEntries from './components/inputs/DropdownEntries';
 import SearchBar from './components/SearchBar';
 import { Stack } from 'react-bootstrap';
 import TableMain from './components/tables/MainTable';
 import TableSubInfo from './components/tables/TableSubInfo';
-import usePeople from './hooks/usePeople';
+import AddPersonBtn from './components/buttons/AddPersonBtn';
+import { useState } from 'react';
+import FormModal from './components/modals/FormModal';
 
 export default function App() {
+  const [showModal, setShowModal] = useState(false);
   return (
     <main className="p-4">
+      {showModal && <FormModal show={showModal} handleClose={setShowModal} />}
       <h1>Ajax CRUD with Bootstrap modals and Datatables</h1>
 
       <Stack gap={4}>
         <h2>Person Data</h2>
 
-        <Button
-          variant="success"
-          size="sm"
-          className="d-flex align-items-center justify-content-center gap-2 col-2 text-center"
-        >
-          <BsPlusLg /> Add Person
-        </Button>
+        <AddPersonBtn modalHandler={setShowModal} />
 
         <Stack
           direction="horizontal"

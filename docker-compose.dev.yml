@@ -9,7 +9,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./wr-frontend/src:/app/src
+      - ./wr-frontend:/app
     networks:
       - react-express
     depends_on:
@@ -30,7 +30,7 @@ services:
     ports:
       - 3001:3001
     volumes:
-      - ./wr-backend/src:/app/src
+      - ./wr-backend:/app
     networks:
       - express-mongo
       - react-express
