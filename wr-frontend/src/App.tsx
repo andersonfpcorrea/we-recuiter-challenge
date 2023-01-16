@@ -4,10 +4,10 @@ import { Stack } from 'react-bootstrap';
 import TableMain from './components/tables/MainTable';
 import TableSubInfo from './components/tables/TableSubInfo';
 import AddPersonBtn from './components/buttons/AddPersonBtn';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import FormModal from './components/modals/FormModal';
 
-export default function App() {
+export default function App(): ReactElement {
   const [showModal, setShowModal] = useState(false);
   return (
     <main className="p-4">

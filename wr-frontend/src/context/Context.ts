@@ -5,6 +5,7 @@ const initialStore: IInitStore = {
   people: null,
   setPeople: null,
   addPerson: null,
+  getPeople: null,
 };
 
 interface IInitStore {
@@ -13,6 +14,7 @@ interface IInitStore {
     React.SetStateAction<IAddPersonReturn[] | null>
   > | null;
   addPerson: ((person: IAddPersonProps) => Promise<IAddPersonReturn>) | null;
+  getPeople: (() => Promise<void>) | null;
 }
 
 const Context = createContext(initialStore);

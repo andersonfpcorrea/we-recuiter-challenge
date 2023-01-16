@@ -2,13 +2,22 @@ import { useEffect, useState } from 'react';
 import { requestAddPerson, requestGetPeople } from '../services/requests';
 import { IAddPersonProps, IAddPersonReturn } from '../interfaces';
 
-export default function usePeople() {
+export interface IUsePeopleReturn {
+  people: IAddPersonReturn[] | null;
+  setPeople: React.Dispatch<React.SetStateAction<IAddPersonReturn[] | null>>;
+  addPerson: (person: IAddPersonProps) => Promise<IAddPersonReturn>;
+  getPeople: () => Promise<void>;
+}
+
+export default function usePeople(): IUsePeopleReturn {
   const [people, setPeople] = useState<IAddPersonReturn[] | null>(null);
   useEffect(() => {
-    getPeople();
+    getPeople().catch((err) => {
+      console.log(err);
+    });
   }, []);
 
-  const getPeople = async () => {
+  const getPeople = async (): Promise<void> => {
     const result = await requestGetPeople();
     setPeople(result);
   };
@@ -20,5 +29,5 @@ export default function usePeople() {
     return result;
   };
 
-  return { people, setPeople, addPerson };
+  return { people, setPeople, addPerson, getPeople };
 }
