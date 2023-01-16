@@ -1,12 +1,12 @@
 import { IAddPersonProps } from '../interfaces';
 
-export async function getPeople() {
+export async function requestGetPeople() {
   const response = await fetch('http://localhost:3001/api', {});
   const data = await response.json();
   return data;
 }
 
-export async function deletePerson(id: string) {
+export async function requestDeletePerson(id: string) {
   const response = await fetch(`http://localhost:3001/api/${id}`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
@@ -15,7 +15,7 @@ export async function deletePerson(id: string) {
   return data;
 }
 
-export async function editPerson(id: string) {
+export async function requestEditPerson(id: string) {
   const response = await fetch(`http://localhost:3001/api/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -24,7 +24,7 @@ export async function editPerson(id: string) {
   return data;
 }
 
-export async function addPerson(person: IAddPersonProps) {
+export async function requestAddPerson(person: IAddPersonProps) {
   const response = await fetch('http://localhost:3001/api', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

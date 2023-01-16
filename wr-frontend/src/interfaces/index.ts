@@ -5,3 +5,7 @@ export interface IAddPersonProps {
   address: string;
   dob: string;
 }
+
+export interface IAddPersonReturn extends IAddPersonProps {
+  _id: string;
+}

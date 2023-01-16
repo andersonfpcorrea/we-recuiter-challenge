@@ -1,19 +1,24 @@
 import { useEffect, useState } from 'react';
-import { getPeople } from '../services/requests';
-import { IAddPersonProps } from '../interfaces';
+import { requestAddPerson, requestGetPeople } from '../services/requests';
+import { IAddPersonProps, IAddPersonReturn } from '../interfaces';
 
 export default function usePeople() {
-  const [people, setPeople] = useState<Record<string, unknown>[] | null>(null);
+  const [people, setPeople] = useState<IAddPersonReturn[] | null>(null);
   useEffect(() => {
-    getPeople().then((data) => {
-      setPeople(data);
-    });
+    getPeople();
   }, []);
 
-  const addPerson = async (person: IAddPersonProps) => {
-    const result = await addPerson(person);
+  const getPeople = async () => {
+    const result = await requestGetPeople();
+    setPeople(result);
+  };
+
+  const addPerson = async (
+    person: IAddPersonProps
+  ): Promise<IAddPersonReturn> => {
+    const result = await requestAddPerson(person);
     return result;
   };
 
-  return { people, setPeople };
+  return { people, setPeople, addPerson };
 }

@@ -5,7 +5,7 @@ import usePeople from '../hooks/usePeople';
 export default function ContextProvider({
   children,
 }: PropsWithChildren): ReactElement {
-  const { people, setPeople } = usePeople();
-  const store = { people, setPeople };
+  const { people, setPeople, addPerson } = usePeople();
+  const store = { people, setPeople, addPerson };
   return <Context.Provider value={store}>{children}</Context.Provider>;
 }
