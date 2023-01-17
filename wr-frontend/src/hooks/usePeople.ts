@@ -1,16 +1,23 @@
 import { useEffect, useState } from 'react';
-import { requestAddPerson, requestGetPeople } from '../services/requests';
-import { IAddPersonProps, IAddPersonReturn } from '../interfaces';
+import {
+  requestAddPerson,
+  requestDeletePerson,
+  requestEditPerson,
+  requestGetPeople,
+} from '../services/requests';
+import { IPersonData, IPersonReturn } from '../interfaces';
 
 export interface IUsePeopleReturn {
-  people: IAddPersonReturn[] | null;
-  setPeople: React.Dispatch<React.SetStateAction<IAddPersonReturn[] | null>>;
-  addPerson: (person: IAddPersonProps) => Promise<IAddPersonReturn>;
+  people: IPersonReturn[] | null;
+  setPeople: React.Dispatch<React.SetStateAction<IPersonReturn[] | null>>;
+  addPerson: (person: IPersonData) => Promise<void>;
   getPeople: () => Promise<void>;
+  deletePerson: (id: string) => Promise<void>;
+  editPerson: (id: string, person: IPersonData) => Promise<void>;
 }
 
 export default function usePeople(): IUsePeopleReturn {
-  const [people, setPeople] = useState<IAddPersonReturn[] | null>(null);
+  const [people, setPeople] = useState<IPersonReturn[] | null>(null);
   useEffect(() => {
     getPeople().catch((err) => {
       console.log(err);
@@ -22,12 +29,26 @@ export default function usePeople(): IUsePeopleReturn {
     setPeople(result);
   };
 
-  const addPerson = async (
-    person: IAddPersonProps
-  ): Promise<IAddPersonReturn> => {
-    const result = await requestAddPerson(person);
-    return result;
+  const addPerson = async (person: IPersonData): Promise<void> => {
+    await requestAddPerson(person);
+    getPeople().catch((err) => {
+      console.error(err);
+    });
   };
 
-  return { people, setPeople, addPerson, getPeople };
+  const deletePerson = async (id: string): Promise<void> => {
+    await requestDeletePerson(id);
+    getPeople().catch((err) => {
+      console.error(err);
+    });
+  };
+
+  const editPerson = async (id: string, person: IPersonData): Promise<void> => {
+    await requestEditPerson(id, person);
+    getPeople().catch((err) => {
+      console.error(err);
+    });
+  };
+
+  return { people, setPeople, addPerson, getPeople, deletePerson, editPerson };
 }

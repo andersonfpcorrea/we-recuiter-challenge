@@ -3,40 +3,42 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Context from '../../context/Context';
-import { IAddPersonProps } from '../../interfaces';
+import { IPersonData, IShowModal } from '../../interfaces';
 
 export interface IFormModalProps {
   show: boolean;
-  handleClose: React.Dispatch<React.SetStateAction<boolean>>;
+  edit: boolean;
+  idToEdit: string | null;
+  handleClose: React.Dispatch<React.SetStateAction<IShowModal>>;
 }
 
 export default function FormModal({
   show,
+  edit,
+  idToEdit,
   handleClose,
 }: IFormModalProps): ReactElement {
-  const { addPerson, getPeople } = useContext(Context);
+  const { addPerson, editPerson } = useContext(Context);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
     const data = Object.fromEntries([
       ...new FormData(e.currentTarget),
-    ]) as unknown as IAddPersonProps;
+    ]) as unknown as IPersonData;
 
-    addPerson?.(data)
-      .then(() => getPeople?.())
-      .catch((err) => {
-        console.error(err);
-      });
+    edit && idToEdit !== null
+      ? editPerson?.(idToEdit, data)
+      : addPerson?.(data);
 
-    handleClose(false);
+    handleClose({ open: false, edit: false, idToEdit: null });
   };
 
   return (
     <Modal
       show={show}
       onHide={() => {
-        handleClose(false);
+        handleClose({ open: false, edit: false, idToEdit: null });
       }}
     >
       <Modal.Header closeButton>
@@ -49,9 +51,9 @@ export default function FormModal({
             <Form.Control
               type="text"
               placeholder="John"
-              autoFocus
               required
               name="firstName"
+              autoFocus
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="lastName">

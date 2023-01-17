@@ -6,12 +6,26 @@ import TableSubInfo from './components/tables/TableSubInfo';
 import AddPersonBtn from './components/buttons/AddPersonBtn';
 import { ReactElement, useState } from 'react';
 import FormModal from './components/modals/FormModal';
+import { IShowModal } from './interfaces';
+import useFilter from './hooks/useFilter';
 
 export default function App(): ReactElement {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<IShowModal>({
+    open: false,
+    edit: false,
+    idToEdit: null,
+  });
+  const { entriesQty, setEntriesQty, entriesMaxQty } = useFilter();
   return (
     <main className="p-4">
-      {showModal && <FormModal show={showModal} handleClose={setShowModal} />}
+      {showModal.open && (
+        <FormModal
+          show={showModal.open}
+          edit={showModal.edit}
+          idToEdit={showModal.idToEdit}
+          handleClose={setShowModal}
+        />
+      )}
       <h1>Ajax CRUD with Bootstrap modals and Datatables</h1>
 
       <Stack gap={4}>
@@ -23,11 +37,15 @@ export default function App(): ReactElement {
           direction="horizontal"
           className="d-flex justify-content-between"
         >
-          <DropdownEntries optQty={10} />
+          <DropdownEntries
+            optQty={entriesMaxQty}
+            value={entriesQty}
+            setValue={setEntriesQty}
+          />
           <SearchBar />
         </Stack>
 
-        <TableMain />
+        <TableMain modalHandler={setShowModal} entriesQty={entriesQty} />
         <TableSubInfo />
       </Stack>
     </main>

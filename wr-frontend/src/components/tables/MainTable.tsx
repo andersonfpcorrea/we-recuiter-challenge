@@ -6,13 +6,21 @@ import { TbArrowsSort } from 'react-icons/tb';
 import { BsSortDownAlt } from 'react-icons/bs';
 import { Button, Stack } from 'react-bootstrap';
 import Context from '../../context/Context';
+import { IShowModal } from '../../interfaces';
 
-export default function TableMain(): ReactElement {
-  const { people } = useContext(Context);
-  console.log(people);
+export interface ITableMainProps {
+  modalHandler: React.Dispatch<React.SetStateAction<IShowModal>>;
+  entriesQty: number;
+}
+
+export default function TableMain({
+  modalHandler,
+  entriesQty,
+}: ITableMainProps): ReactElement {
+  const { people, deletePerson } = useContext(Context);
 
   const headers = data.headers.map((header, i) => (
-    <th key={header + i}>
+    <th key={`${header}${i}`}>
       <Stack gap={1} direction="horizontal">
         <span>{header}</span>
         {i > 0 && i < data.headers.length - 1 && (
@@ -35,19 +43,37 @@ export default function TableMain(): ReactElement {
         <tr>{headers}</tr>
       </thead>
       <tbody>
-        {people?.map((person) => (
-          <tr key={person._id}>
-            <td>{person.firstName}</td>
-            <td>{person.lastName}</td>
-            <td>{person.gender}</td>
-            <td>{person.dob}</td>
-            <td>{person.address}</td>
-            <td>
-              <TableButton type="edit" />
-              <TableButton type="delete" />
-            </td>
-          </tr>
-        ))}
+        {people?.map((person, i) => {
+          if (i < entriesQty)
+            return (
+              <tr key={person._id}>
+                <td>{person.firstName}</td>
+                <td>{person.lastName}</td>
+                <td>{person.gender}</td>
+                <td>{person.dob}</td>
+                <td>{person.address}</td>
+                <td>
+                  <TableButton
+                    type="edit"
+                    clickHandler={() => {
+                      modalHandler({
+                        open: true,
+                        edit: true,
+                        idToEdit: person._id,
+                      });
+                    }}
+                  />
+                  <TableButton
+                    type="delete"
+                    clickHandler={() => {
+                      void deletePerson?.(person._id);
+                    }}
+                  />
+                </td>
+              </tr>
+            );
+          return null;
+        })}
       </tbody>
       <tfoot>
         <tr>{headers}</tr>

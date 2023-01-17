@@ -2,10 +2,14 @@ import { ReactElement, useMemo } from 'react';
 
 export interface IDropdownEntriesProps {
   optQty: number;
+  value: number;
+  setValue: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function DropdownEntries({
   optQty,
+  value,
+  setValue,
 }: IDropdownEntriesProps): ReactElement {
   const options = useMemo(() => {
     const opts = [];
@@ -20,9 +24,16 @@ export default function DropdownEntries({
   }, [optQty]);
 
   return (
-    <div className='d-flex gap-1'>
+    <div className="d-flex gap-1">
       <span>Show:</span>
-      <select>{options}</select>
+      <select
+        value={value}
+        onChange={(e) => {
+          setValue(Number(e.currentTarget.value));
+        }}
+      >
+        {options}
+      </select>
       <span>entries</span>
     </div>
   );

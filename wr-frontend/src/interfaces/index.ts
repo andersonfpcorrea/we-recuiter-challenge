@@ -1,4 +1,4 @@
-export interface IAddPersonProps {
+export interface IPersonData {
   firstName: string;
   lastName: string;
   gender: string;
@@ -6,6 +6,12 @@ export interface IAddPersonProps {
   dob: string;
 }
 
-export interface IAddPersonReturn extends IAddPersonProps {
+export interface IPersonReturn extends IPersonData {
   _id: string;
+}
+
+export interface IShowModal {
+  open: boolean;
+  edit: boolean;
+  idToEdit: string | null;
 }

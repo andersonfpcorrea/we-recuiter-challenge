@@ -3,10 +3,10 @@ import { ReactElement, useMemo, useState } from 'react';
 
 export default function SimplePagination(): ReactElement {
   const [active, setActive] = useState(1);
-  const [pages, setPages] = useState(3);
+  const [pages] = useState(3);
 
   const pagination = useMemo(() => {
-    let items = [];
+    const items = [];
     for (let number = 1; number <= pages; number++) {
       items.push(
         <Pagination.Item key={number} active={number === active}>
@@ -25,14 +25,18 @@ export default function SimplePagination(): ReactElement {
     <Pagination>
       <Pagination.First
         disabled={active < 2}
-        onClick={() => increasePage(false)}
+        onClick={() => {
+          increasePage(false);
+        }}
       >
         Previous
       </Pagination.First>
       {pagination}
       <Pagination.Last
         disabled={active === pages}
-        onClick={() => increasePage(true)}
+        onClick={() => {
+          increasePage(true);
+        }}
       >
         Next
       </Pagination.Last>

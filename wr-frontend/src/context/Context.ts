@@ -1,20 +1,24 @@
 import { createContext } from 'react';
-import { IAddPersonProps, IAddPersonReturn } from '../interfaces';
+import { IPersonData, IPersonReturn } from '../interfaces';
 
 const initialStore: IInitStore = {
   people: null,
   setPeople: null,
   addPerson: null,
   getPeople: null,
+  deletePerson: null,
+  editPerson: null,
 };
 
 interface IInitStore {
-  people: IAddPersonReturn[] | null;
+  people: IPersonReturn[] | null;
   setPeople: React.Dispatch<
-    React.SetStateAction<IAddPersonReturn[] | null>
+    React.SetStateAction<IPersonReturn[] | null>
   > | null;
-  addPerson: ((person: IAddPersonProps) => Promise<IAddPersonReturn>) | null;
+  addPerson: ((person: IPersonData) => Promise<void>) | null;
   getPeople: (() => Promise<void>) | null;
+  deletePerson: ((id: string) => Promise<void>) | null;
+  editPerson: ((id: string, person: IPersonData) => Promise<void>) | null;
 }
 
 const Context = createContext(initialStore);
