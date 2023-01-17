@@ -1,21 +1,14 @@
 import Pagination from 'react-bootstrap/Pagination';
-import { ReactElement, useMemo, useState } from 'react';
+import { ReactElement, useState } from 'react';
 
-export default function SimplePagination(): ReactElement {
+export interface ISimplePagProps {
+  pages: number;
+}
+
+export default function SimplePagination({
+  pages,
+}: ISimplePagProps): ReactElement {
   const [active, setActive] = useState(1);
-  const [pages] = useState(3);
-
-  const pagination = useMemo(() => {
-    const items = [];
-    for (let number = 1; number <= pages; number++) {
-      items.push(
-        <Pagination.Item key={number} active={number === active}>
-          {number}
-        </Pagination.Item>
-      );
-    }
-    return items;
-  }, [pages, active]);
 
   const increasePage = (moveNext: boolean): void => {
     moveNext ? setActive((prev) => prev + 1) : setActive((prev) => prev - 1);
@@ -31,7 +24,11 @@ export default function SimplePagination(): ReactElement {
       >
         Previous
       </Pagination.First>
-      {pagination}
+      {Array.from({ length: pages }).map((_, i) => (
+        <Pagination.Item key={i + 1} active={i + 1 === active}>
+          {i + 1}
+        </Pagination.Item>
+      ))}
       <Pagination.Last
         disabled={active === pages}
         onClick={() => {

@@ -16,7 +16,7 @@ export default function App(): ReactElement {
     edit: false,
     idToEdit: null,
   });
-  const { entriesQty, setEntriesQty, entriesMaxQty } = useFilter();
+  const { entriesQty, setEntriesQty, entriesMaxQty, pages } = useFilter();
   const { people } = useContext(Context);
   return (
     <main className="p-4">
@@ -48,7 +48,11 @@ export default function App(): ReactElement {
         </Stack>
 
         <TableMain modalHandler={setShowModal} entriesQty={entriesQty} />
-        <TableSubInfo entriesQty={entriesQty} listSize={people?.length} />
+        <TableSubInfo
+          entriesQty={entriesQty}
+          listSize={people?.length}
+          pages={pages}
+        />
       </Stack>
     </main>
   );
