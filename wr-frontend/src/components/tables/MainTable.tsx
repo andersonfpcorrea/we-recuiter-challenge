@@ -6,18 +6,22 @@ import { TbArrowsSort } from 'react-icons/tb';
 import { BsSortDownAlt } from 'react-icons/bs';
 import { Button, Stack } from 'react-bootstrap';
 import Context from '../../context/Context';
-import { IShowModal } from '../../interfaces';
+import { IPersonReturn, IShowModal } from '../../interfaces';
 
 export interface ITableMainProps {
   modalHandler: React.Dispatch<React.SetStateAction<IShowModal>>;
   entriesQty: number;
+  activePage: number;
+  pages: Array<Array<IPersonReturn | undefined>> | null;
 }
 
 export default function TableMain({
   modalHandler,
   entriesQty,
+  activePage,
+  pages,
 }: ITableMainProps): ReactElement {
-  const { people, deletePerson } = useContext(Context);
+  const { deletePerson } = useContext(Context);
 
   const headers = data.headers.map((header, i) => (
     <th key={`${header}${i}`}>
@@ -43,15 +47,15 @@ export default function TableMain({
         <tr>{headers}</tr>
       </thead>
       <tbody>
-        {people?.map((person, i) => {
-          if (i < entriesQty)
+        {pages?.[activePage - 1]?.map((person, i) => {
+          if (person !== undefined)
             return (
-              <tr key={person._id}>
-                <td>{person.firstName}</td>
-                <td>{person.lastName}</td>
-                <td>{person.gender}</td>
-                <td>{person.dob}</td>
-                <td>{person.address}</td>
+              <tr key={person?._id}>
+                <td>{person?.firstName}</td>
+                <td>{person?.lastName}</td>
+                <td>{person?.gender}</td>
+                <td>{person?.dob}</td>
+                <td>{person?.address}</td>
                 <td>
                   <TableButton
                     type="edit"
@@ -59,14 +63,17 @@ export default function TableMain({
                       modalHandler({
                         open: true,
                         edit: true,
-                        idToEdit: person._id,
+                        idToEdit:
+                          person?._id === undefined ? null : person?._id,
                       });
                     }}
                   />
                   <TableButton
                     type="delete"
                     clickHandler={() => {
-                      void deletePerson?.(person._id);
+                      void deletePerson?.(
+                        person?._id === undefined ? '' : person?._id
+                      );
                     }}
                   />
                 </td>

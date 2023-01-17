@@ -16,7 +16,15 @@ export default function App(): ReactElement {
     edit: false,
     idToEdit: null,
   });
-  const { entriesQty, setEntriesQty, entriesMaxQty, pages } = useFilter();
+  const {
+    entriesQty,
+    setEntriesQty,
+    entriesMaxQty,
+    pagination,
+    pages,
+    activePage,
+    setActivePage,
+  } = useFilter();
   const { people } = useContext(Context);
   return (
     <main className="p-4">
@@ -47,11 +55,19 @@ export default function App(): ReactElement {
           <SearchBar />
         </Stack>
 
-        <TableMain modalHandler={setShowModal} entriesQty={entriesQty} />
+        <TableMain
+          modalHandler={setShowModal}
+          entriesQty={entriesQty}
+          activePage={activePage}
+          pages={pages}
+        />
         <TableSubInfo
           entriesQty={entriesQty}
           listSize={people?.length}
+          pagination={pagination}
           pages={pages}
+          activePage={activePage}
+          setActivePage={setActivePage}
         />
       </Stack>
     </main>

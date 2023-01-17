@@ -1,36 +1,48 @@
 import Pagination from 'react-bootstrap/Pagination';
-import { ReactElement, useState } from 'react';
+import { ReactElement } from 'react';
+import { IPersonReturn } from '../../interfaces';
 
 export interface ISimplePagProps {
-  pages: number;
+  pagination: number;
+  pages: Array<Array<IPersonReturn | undefined>> | null;
+  activePage: number;
+  setActivePage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function SimplePagination({
-  pages,
+  pagination,
+  activePage,
+  setActivePage,
 }: ISimplePagProps): ReactElement {
-  const [active, setActive] = useState(1);
-
   const increasePage = (moveNext: boolean): void => {
-    moveNext ? setActive((prev) => prev + 1) : setActive((prev) => prev - 1);
+    moveNext
+      ? setActivePage((prev) => prev + 1)
+      : setActivePage((prev) => prev - 1);
   };
 
   return (
     <Pagination>
       <Pagination.First
-        disabled={active < 2}
+        disabled={activePage < 2}
         onClick={() => {
           increasePage(false);
         }}
       >
         Previous
       </Pagination.First>
-      {Array.from({ length: pages }).map((_, i) => (
-        <Pagination.Item key={i + 1} active={i + 1 === active}>
+      {Array.from({ length: pagination }).map((_, i) => (
+        <Pagination.Item
+          key={i + 1}
+          active={i + 1 === activePage}
+          onClick={() => {
+            setActivePage(i + 1);
+          }}
+        >
           {i + 1}
         </Pagination.Item>
       ))}
       <Pagination.Last
-        disabled={active === pages}
+        disabled={activePage === pagination}
         onClick={() => {
           increasePage(true);
         }}
