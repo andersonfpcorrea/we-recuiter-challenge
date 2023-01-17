@@ -4,10 +4,11 @@ import { Stack } from 'react-bootstrap';
 import TableMain from './components/tables/MainTable';
 import TableSubInfo from './components/tables/TableSubInfo';
 import AddPersonBtn from './components/buttons/AddPersonBtn';
-import { ReactElement, useState } from 'react';
+import { ReactElement, useContext, useState } from 'react';
 import FormModal from './components/modals/FormModal';
 import { IShowModal } from './interfaces';
 import useFilter from './hooks/useFilter';
+import Context from './context/Context';
 
 export default function App(): ReactElement {
   const [showModal, setShowModal] = useState<IShowModal>({
@@ -16,6 +17,7 @@ export default function App(): ReactElement {
     idToEdit: null,
   });
   const { entriesQty, setEntriesQty, entriesMaxQty } = useFilter();
+  const { people } = useContext(Context);
   return (
     <main className="p-4">
       {showModal.open && (
@@ -46,7 +48,7 @@ export default function App(): ReactElement {
         </Stack>
 
         <TableMain modalHandler={setShowModal} entriesQty={entriesQty} />
-        <TableSubInfo />
+        <TableSubInfo entriesQty={entriesQty} listSize={people?.length} />
       </Stack>
     </main>
   );
